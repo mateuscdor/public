@@ -23,11 +23,9 @@ const got = require('got');
 const git = simpleGit();
 const axios = require('axios');
 
-const Language = require('./language');
-const Lang = Language.getString('updater');
 
 // Sql
-const inrlDB = config.DATABASE.define('inrlDB', {
+const bot = config.DATABASE.define('bot', {
     info: {
       type: DataTypes.STRING,
       allowNull: false
