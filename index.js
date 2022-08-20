@@ -250,11 +250,9 @@ var plugins = await plugindb.PluginDB.findAll();
                                     , MessageType.text);
                             }
                         }
-                    }
-                }
-            }
-        )
-    });
+                    });
+          })
+    }          
   whatsappBot ()
 }, 5000);
     
