@@ -137,19 +137,7 @@ var plugins = await plugindb.PluginDB.findAll();
             chalk.green.bold('✅ inrl-Bot working!')
         );
 
-        if (config.BOT_PRESENCE == 'offline') {
-            await sock.updatePresence(msg.key.remoteJid, Presence.unavailable);
         
-        } else if (config.BOT_PRESENCE == 'online') {
-            await sock.updatePresence(msg.key.remoteJid, Presence.available);
-        
-        } else if (config.BOT_PRESENCE == 'typing') {
-            await sock.updatePresence(msg.key.remoteJid, Presence.composing);
-        
-        } else if (config.BOT_PRESENCE == 'recording') {
-            await sock.updatePresence(msg.key.remoteJid, Presence.recording);
-        }
-
         if (msg.messageStubType === 32 || msg.messageStubType === 28) {
         var plk_say = new Date().toLocaleString('HI', { timeZone: 'Asia/Kolkata' }).split(' ')[1]
         const get_localized_date = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -237,18 +225,7 @@ var plugins = await plugindb.PluginDB.findAll();
                         else if (command.onlyGroup === chat.jid.includes('-')) sendMsg = true;
                     }
                     
-                    else if ((config.MAHN !== false && msg.key.fromMe === false && command.fromMe === true &&
-                        (msg.participant && config.MAHN.includes(',') ? config.MAHN.split(',').includes(msg.participant.split('@')[0]) : msg.participant.split('@')[0] == config.MAHN || config.MAHN.includes(',') ? config.MAHN.split(',').includes(msg.key.remoteJid.split('@')[0]) : msg.key.remoteJid.split('@')[0] == config.MAHN)
-                    ) || command.fromMe === msg.key.fromMe || (command.fromMe === false && !msg.key.fromMe)) {
-                        if (command.onlyPinned && chat.pin === undefined) return;
-                        if (!command.onlyPm === chat.jid.includes('-')) sendMsg = true;
-                        else if (command.onlyGroup === chat.jid.includes('-')) sendMsg = true;
-                    }
-    
-                    if (sendMsg) {
-                        if (config.SEND_READ && command.on === undefined) {
-                            await sock.chatRead(msg.key.remoteJid);
-                        }
+                    
                         
                         var match = text_msg.match(command.pattern);
                         
@@ -269,15 +246,7 @@ var plugins = await plugindb.PluginDB.findAll();
                         try {
                             await command.function(whats, match);
                         } catch (error) {
-                            if (config.LANG == 'TR' || config.LANG == 'AZ') {
-                                await sock.sendMessage(sock.user.jid, '-- HATA RAPORU [whatsappBot] --' + 
-                                    '\n*whatsappBot bir hata gerçekleşti!*'+
-                                    '\n_Bu hata logunda numaranız veya karşı bir tarafın numarası olabilir. Lütfen buna dikkat edin!_' +
-                                    '\n_Yardım için Telegram grubumuza yazabilirsiniz._' +
-                                    '\n_Bu mesaj sizin numaranıza (kaydedilen mesajlar) gitmiş olmalıdır._\n\n' +
-                                    'Gerçekleşen Hata: ' + error + '\n\n'
-                                    , MessageType.text);
-                            } else {
+                             
                                 await sock.sendMessage(sock.user.jid, '__inrlbot_☠☠_[bug] ' +
                                     '\n\n*🥶❣️ ' + error + '*\n'
                                     , MessageType.text);
